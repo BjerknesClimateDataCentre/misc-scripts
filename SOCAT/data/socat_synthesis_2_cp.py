@@ -113,6 +113,6 @@ if __name__ == '__main__':
 
   in_file = sys.argv[1]
   root, ext = os.path.splitext(in_file)
-  out_file = f'{root}.SOCAT.csv'
+  out_file = f'{root}_SOCAT_enhanced.csv'
 
   main(in_file, out_file)
