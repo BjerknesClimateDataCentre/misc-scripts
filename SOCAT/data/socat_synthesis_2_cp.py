@@ -50,7 +50,7 @@ def main(in_file, out_file):
 
   # Copy the columns that don't need any changes
   output['Expocode'] = data['Expocode']
-  output['Longitude'] = data['longitude [dec.deg.E]']
+  # Longitudes need converting from 0:360 to -180:180. Done below.
   output['Latitude'] = data['latitude [dec.deg.N]']
   output['Depth [m]'] = data['sample_depth [m]']
   output['version'] = data['version']
@@ -80,7 +80,7 @@ def main(in_file, out_file):
   output['P_sal [psu] QC Flag'] = 9
   output['Temp [degC] QC Flag'] = 9
 
-  # And finally the timestamp, one row at at time
+  # Now we loop through all rows making the timestamp and fixing the longitudes
   for index, row in data.iterrows():
     timestamp = datetime(
       year=int(row['yr']),
@@ -92,6 +92,12 @@ def main(in_file, out_file):
       tzinfo=timezone.utc)
 
     output.at[index, 'Date/Time'] = timestamp
+
+    lon = np.float64(row['longitude [dec.deg.E]'])
+    if lon > 180:
+      lon = (360 - lon) * -1
+
+    output.at[index, 'Longitude'] = lon.round(3)
 
   # Enforce data type on date/time column
   output['Date/Time'] = pd.to_datetime(output['Date/Time'])
