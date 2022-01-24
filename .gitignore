@@ -2,4 +2,5 @@
 **/*cnv
 **/*csv
 
-
+# Ignore SOCAT download log files
+SOCAT/website/download_logger/temp
