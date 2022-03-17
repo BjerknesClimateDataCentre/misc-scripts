@@ -3,4 +3,5 @@
 **/*csv
 
 # Ignore SOCAT download log files
-SOCAT/website/download_logger/temp
+SOCAT/website/download_logger/socat_log_files
+SOCAT/website/download_logger/script_log
